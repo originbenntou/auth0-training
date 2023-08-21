@@ -14,7 +14,7 @@
     "@types/jest": "^29.5.3",
     "@types/node": "20.5.1",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "aws-cdk": "latest",
+    "aws-cdk": "^2.92.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
@@ -30,13 +30,6 @@
     "typescript": "~5.1.6"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigateway": "latest",
-    "@aws-cdk/aws-lambda": "latest",
-    "@aws-cdk/aws-route53": "latest",
-    "@aws-cdk/aws-ses": "latest",
-    "@aws-cdk/aws-sns": "latest",
-    "@aws-cdk/aws-sns-subscriptions": "latest",
-    "@aws-cdk/core": "latest",
     "aws-cdk-lib": "^2.92.0",
     "constructs": "^10.2.69",
     "dotenv": "^16.3.1",
