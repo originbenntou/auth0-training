@@ -1,20 +1,25 @@
 import * as cdk from 'aws-cdk-lib'
 import { type Construct } from 'constructs'
 import * as sns from 'aws-cdk-lib/aws-sns'
-import * as subscriptions from '@aws-cdk/aws-sns-subscriptions'
+import * as subscriptions from 'aws-cdk/aws-sns-subscriptions'
 import * as ses from 'aws-cdk-lib/aws-ses'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
+const snsToEmail = process.env.SNS_TO_EMAIL ? process.env.SNS_TO_EMAIL : ''
 const domain = process.env.DOMAIN ? process.env.DOMAIN : ''
 
-export class SnsStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: SesProps) {
-    super(scope, id, props)
-  }
+interface SnsProps extends cdk.StackProps {
+  to: string
+}
 
-  emailSubscription = new subscriptions.EmailSubscription('originbenntou8973@gmail.com')
-  topic = new sns.Topic(this, 'SESNotificationTopic').addSubscription(emailSubscription)
+export class SnsStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: SnsProps) {
+    super(scope, id, props)
+
+    const emailSubscription = new subscriptions.EmailSubscription(props.to)
+    new sns.Topic(this, 'SESNotificationTopic').addSubscription(emailSubscription)
+  }
 }
 
 interface SesProps extends cdk.StackProps {
@@ -34,7 +39,7 @@ export class SesStack extends cdk.Stack {
 const app = new cdk.App()
 
 new SnsStack(app, 'SnsStack', {
-  domain,
+  to: snsToEmail,
 })
 
 new SesStack(app, 'SesStack', {
