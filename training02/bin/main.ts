@@ -13,12 +13,12 @@ import {
 import * as dotenv from 'dotenv'
 
 dotenv.config()
-const domain = process.env.FROM_DOMAIN ? process.env.FROM_DOMAIN : ''
 const accountId = process.env.AWS_ACCOUNT_ID ? process.env.AWS_ACCOUNT_ID : ''
+const domain = process.env.FROM_DOMAIN ? process.env.FROM_DOMAIN : ''
 const workspace = process.env.SLACK_WORKSPACE ? process.env.SLACK_WORKSPACE : ''
 const channel = process.env.SLACK_CHANNEL ? process.env.SLACK_CHANNEL : ''
 
-interface MessagingProps extends cdk.StackProps {
+interface SESMonitorProps extends cdk.StackProps {
   domain: string
   accountId: string
   workspace: string
@@ -26,7 +26,7 @@ interface MessagingProps extends cdk.StackProps {
 }
 
 export class SESMonitorStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props: MessagingProps) {
+  constructor(scope: cdk.App, id: string, props: SESMonitorProps) {
     super(scope, id, props)
 
     /**********************
