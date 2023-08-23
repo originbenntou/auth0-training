@@ -100,7 +100,7 @@ export class SESMonitorStack extends cdk.Stack {
      **********************/
     // Chatbotのロール
     const chatbotRole = new iam.Role(this, 'ChatbotRole', {
-      roleName: 'chatbot-sample-role',
+      roleName: 'ChatbotRole',
       assumedBy: new iam.ServicePrincipal('chatbot.amazonaws.com'),
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLogsReadOnlyAccess')],
     })
