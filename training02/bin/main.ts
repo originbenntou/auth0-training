@@ -1,5 +1,9 @@
-import * as cdk from 'aws-cdk-lib'
 import {
+  App,
+  Stack,
+  StackProps,
+  Duration,
+  RemovalPolicy,
   aws_logs as logs,
   aws_cloudwatch as cloudwatch,
   aws_cloudwatch_actions as cloudwatch_action,
@@ -18,15 +22,15 @@ const domain = process.env.FROM_DOMAIN ? process.env.FROM_DOMAIN : ''
 const workspace = process.env.SLACK_WORKSPACE ? process.env.SLACK_WORKSPACE : ''
 const channel = process.env.SLACK_CHANNEL ? process.env.SLACK_CHANNEL : ''
 
-interface SESMonitorProps extends cdk.StackProps {
+interface SESMonitorProps extends StackProps {
   domain: string
   accountId: string
   workspace: string
   channel: string
 }
 
-export class SESMonitorStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props: SESMonitorProps) {
+export class SESMonitorStack extends Stack {
+  constructor(scope: App, id: string, props: SESMonitorProps) {
     super(scope, id, props)
 
     /**********************
@@ -159,7 +163,7 @@ export class SESMonitorStack extends cdk.Stack {
     const emailDeliveryLogGroup = new logs.LogGroup(this, 'EmailDeliveryLogGroup', {
       logGroupName: '/aws/lambda/emailDeliveryLogGroup', // LogGroup
       retention: logs.RetentionDays.ONE_DAY,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy: RemovalPolicy.DESTROY,
     })
     new logs.LogStream(this, 'EmailDeliveryLogStream', {
       logGroup: emailDeliveryLogGroup,
@@ -192,7 +196,7 @@ export class SESMonitorStack extends cdk.Stack {
      **********************/
     // バウンスのアラーム
     const bounceAlarm = new cloudwatch.Alarm(this, 'BounceAlarm', {
-      metric: bounceMetricFilter.metric({ period: cdk.Duration.minutes(5), statistic: 'Sum' }),
+      metric: bounceMetricFilter.metric({ period: Duration.minutes(5), statistic: 'Sum' }),
       evaluationPeriods: 1,
       threshold: 1,
       comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
@@ -203,7 +207,7 @@ export class SESMonitorStack extends cdk.Stack {
 
     // 苦情のアラーム
     const complaintAlarm = new cloudwatch.Alarm(this, 'ComplaintAlarm', {
-      metric: complaintMetricFilter.metric({ period: cdk.Duration.minutes(5), statistic: 'Sum' }),
+      metric: complaintMetricFilter.metric({ period: Duration.minutes(5), statistic: 'Sum' }),
       evaluationPeriods: 1,
       threshold: 1,
       comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
@@ -214,7 +218,7 @@ export class SESMonitorStack extends cdk.Stack {
   }
 }
 
-const app = new cdk.App()
+const app = new App()
 
 new SESMonitorStack(app, 'SESMonitorStack', {
   domain,
