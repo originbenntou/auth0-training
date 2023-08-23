@@ -13,15 +13,13 @@ import {
 import * as dotenv from 'dotenv'
 
 dotenv.config()
-const snsToEmail = process.env.SNS_TO_EMAIL ? process.env.SNS_TO_EMAIL : ''
-const domain = process.env.DOMAIN ? process.env.DOMAIN : ''
+const domain = process.env.FROM_DOMAIN ? process.env.FROM_DOMAIN : ''
 const accountId = process.env.AWS_ACCOUNT_ID ? process.env.AWS_ACCOUNT_ID : ''
 const workspace = process.env.SLACK_WORKSPACE ? process.env.SLACK_WORKSPACE : ''
 const channel = process.env.SLACK_CHANNEL ? process.env.SLACK_CHANNEL : ''
 
 interface MessagingProps extends cdk.StackProps {
   domain: string
-  to: string
   accountId: string
   workspace: string
   channel: string
@@ -219,8 +217,7 @@ export class SESMonitorStack extends cdk.Stack {
 const app = new cdk.App()
 
 new SESMonitorStack(app, 'SESMonitorStack', {
-  domain: domain,
-  to: snsToEmail,
+  domain,
   accountId,
   workspace,
   channel,
