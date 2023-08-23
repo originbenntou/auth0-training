@@ -4,8 +4,8 @@ const client = new CloudWatchLogsClient()
 
 exports.handler = async (event) => {
   const input = {
-    logGroupName: 'SESNotification',
-    logStreamName: 'SESNotificationStream',
+    logGroupName: '/aws/lambda/emailDeliveryLogGroup',
+    logStreamName: 'emailDeliveryLogStream',
     logEvents: [
       {
         timestamp: Date.now(),
