@@ -1,0 +1,23 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": "standard-with-typescript",
+  "overrides": [
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "@typescript-eslint/dot-notation": "error",
+    "no-new": "off",
+    "no-unused-vars": "off",
+    "no-useless-constructor": "off",
+    "no-unused-expressions": "off",
+    "space-before-function-paren": "off"
+  }
+}
