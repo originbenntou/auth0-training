@@ -1,0 +1,11 @@
+FROM node:18.16.0-alpine
+
+WORKDIR /srv
+
+RUN apk update --no-cache && \
+    npm i -g pnpm
+
+COPY . .
+
+RUN pnpm i && \
+    pnpm build
